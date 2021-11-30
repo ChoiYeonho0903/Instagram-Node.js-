@@ -1,0 +1,37 @@
+.twit_container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 1200px;
+    padding: 30px 50px;
+    margin: 0 auto;
+}
+.twit {
+    width: 400px;
+    margin-bottom: 15px;
+}
+.slide_wrap { 
+    position: relative; 
+    width: 300px; 
+    margin: 0 auto;
+}
+.slide_box { 
+    width: 100%; 
+    overflow-x: hidden; 
+}
+.slide_list {
+    display: flex;
+}
+.slide_content { 
+    display: table; 
+    width: 300px; 
+    height: 300px; 
+}
+.slide_img {
+    width: 300px; 
+    height: 300px; 
+}
+.text_wrap {
+    margin: 0 auto;
+    width: 300px;
+}

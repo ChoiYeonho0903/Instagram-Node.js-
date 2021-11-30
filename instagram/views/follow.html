@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="follow.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+<main>
+    <input id="my_id" type="hidden" value="{{user.id}}">
+    <div class="follow_box">
+        {% for one_user in all_users %}
+            {% if one_user.id !== user.id %}
+                <div class="follow_container">
+                    <div class="img_box">
+                        <img class="image" src="img/empty.png" alt="빈프로필">
+                    </div>
+                    <div class="info_box">
+                        <div class="user_id">
+                            <input class ="i_user_id" type="hidden" value="{{one_user.id}}">
+                            {{one_user.id}}
+                        </div>
+                        <div class="user_name">
+                            {{one_user.name}}
+                        </div>
+                    </div>
+                    {% if not followerIdList.includes(one_user.id) %}
+                    
+                    <button type="button" class="follow_btn">팔로우</button>
+                    
+                    {% else %}
+                    <div class="btn_box">
+                        <button class="unfollow_btn">팔로우</button>
+                    </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    document.querySelectorAll(".follow_btn").forEach(function(tag) {
+        tag.addEventListener('click', function() {
+            const myId = document.querySelector("#my_id");
+            if (myId) {
+                const userId = tag.parentNode.querySelector(".i_user_id").value;
+                if (userId !== myId.value) {
+                    if(confirm("팔로잉하시겠습니까?")) {
+                        axios.post(`/user/${userId}/follow`)
+                        .then(() => {
+                            location.reload();
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        });
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

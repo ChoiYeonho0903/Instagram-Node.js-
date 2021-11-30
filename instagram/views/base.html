@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="base.css" type="text/css">
+    <link rel="icon" href="img/icon.png">
+    {% block link %}
+    {% endblock %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <nav>
+      <div class="base_container">
+        <div class="left_box">
+          <div class="logo_box">
+            <img class="logo" src="img/logo_text.png" alt="인스타 글씨">
+          </div>
+        </div>
+        <div class="center_box">
+          <form action="">
+            <div>
+              <label for="writer"><input type="radio" name="search_type" id="writer" value="writer">writer</label>
+              <label for="text"><input type="radio" name="search_type" id="text" value="text">text</label>
+              <label for="hashtag"><input type="radio" name="search_type" id="hashtag" value="hashtag">hashtag</label>
+            </div>
+            <input class="search_box" type="text" placeholder="검색어 입력">
+            <button class="search_btn" type="submit">검색</button>
+          </form>
+        </div>
+        <div class="right_box">
+          <div class="home_box">
+            <a href="/home"><img class="icon" src="img/home.png" alt="home"></a>
+          </div>
+          <div class="msg_box">
+            <a href="/msg"><img class="icon" src="img/dm.png" alt="dm"></a>
+          </div>
+          <div>
+            <a href="/new"><img class="icon" src="img/new.png" alt="new"></a>
+          </div>
+          <div class="liked_box">
+            <a href="/follow"><img class="icon" src="img/liked.png" alt="liked"></a>
+          </div>
+          <div class="profile_box">
+              <li class="nav-item-dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img class="icon" src="img/myinfo.png" alt="profile">
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/profile">profile</a></li>
+                  <li><a class="dropdown-item" href="/auth/logout">logout</a></li>
+                </ul>
+              </li>
+          </div>
+        </div>
+      </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+
+    
+    {% block script %}
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="login.css" type="text/css">
+    <link rel="icon" href="/img/icon.png" type="image/png">
+  </head>
+  <body>
+    <div class="homepage_container">
+      <div class="homepage_box">
+        <img class="homepage_img" src="img/homepage.png" alt="instagramimg">
+      </div>
+      <div class="login_box">
+        <div class="login">
+          <img class="instagramText" src="img/logo_text.png" alt="instagramText">
+          <form action="/auth/login" method="post">
+            <input type="text" class="userLogin" placeholder="사용자 이름" name="id">
+            <input type="password" class="userLogin" placeholder="비밀번호" name="password">
+            <button id="loginButton" type="submit">로그인</button>
+          </form>
+        </div>
+        <div class="join_box">
+          <footer class="joinInsta">
+            <p class="join">계정이 없으신가요? <a href="/account" class="joinBtn">가입하기</a></p>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

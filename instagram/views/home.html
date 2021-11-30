@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="home.css" type="text/css">
+
+{% endblock %}
+
+{% block content %}
+    <div class="twit_container">
+        {% for twit in twits %}
+        <div class="twit">
+            <input type="hidden" value="{{twit.User.id}}" class="twit_user_id">
+            <input type="hidden" value="{{twit.id}}" class="twit_id">
+            <div class="slide_wrap">
+                <div class="slide_box">
+                    <div class="slide_list clearfix">
+                        {% for image in twit.Images%}
+                            <div class="slide_content">
+                                <img class="slide_img" src="{{image.img_url}}" alt="image">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="slide_btn_prev">Prev</button>
+                    <button type="button" class="slide_btn_next">Next</button>
+                </div>
+                <ul class="slide_pagination"></ul>
+            </div>
+            <div class="text_wrap">
+                <div class="twit_author"> 
+                    {{twit.User.name}}
+                </div>
+                <div class="twit_date"> 
+                </div>
+                <div class="twit_content"> 
+                    <textarea type="text" value="{{twit.content}}">{{twit.content}}</textarea>
+                </div>
+            </div>
+            
+            <div class="twit_hashtag"> 
+
+            </div>
+        </div>
+    {% endfor %}         
+    </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const slideList = document.querySelector('.slide_list'); // Slide parent dom
+    const slideContents = document.querySelectorAll('.slide_content'); // each slide dom
+    const slideBtnNext = document.querySelector('.slide_btn_next'); // next button
+    const slideBtnPrev = document.querySelector('.slide_btn_prev'); // prev button
+    const slideLen = slideContents.length; // slide length
+    const slideWidth = 300; // slide width
+    const slideSpeed = 300; // slide speed
+    const startNum = 0; // initial slide index (0 ~ 4)
+    slideList.style.width = slideWidth * (slideLen + 2) + "px";
+    // Copy first and last slide
+    let firstChild = slideList.firstElementChild;
+    let lastChild = slideList.lastElementChild;
+    let clonedFirst = firstChild.cloneNode(true);
+    let clonedLast = lastChild.cloneNode(true);
+    // Add copied Slides
+    slideList.appendChild(clonedFirst);
+    slideList.insertBefore(clonedLast, slideList.firstElementChild);
+    slideList.style.transform = "translate3d(-" + (slideWidth * (startNum + 1)) + "px, 0px, 0px)";
+    let curIndex = startNum; // current slide index (except copied slide)
+    let curSlide = slideContents[curIndex]; // current slide dom
+    curSlide.classList.add('slide_active');
+
+    /** Next Button Event */
+    slideBtnNext.addEventListener('click', function() {
+        if (curIndex <= slideLen - 1) {
+            slideList.style.transition = slideSpeed + "ms";
+            slideList.style.transform = "translate3d(-" + (slideWidth * (curIndex + 2)) + "px, 0px, 0px)";
+        }
+        if (curIndex === slideLen - 1) {
+            setTimeout(function() {
+                slideList.style.transition = "0ms";
+                slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
+            }, slideSpeed);
+            curIndex = -1;
+        }
+        curSlide.classList.remove('slide_active');
+        curSlide = slideContents[++curIndex];
+        curSlide.classList.add('slide_active');
+    });
+    /** Prev Button Event */
+    slideBtnPrev.addEventListener('click', function() {
+        if (curIndex >= 0) {
+            slideList.style.transition = slideSpeed + "ms";
+            slideList.style.transform = "translate3d(-" + (slideWidth * curIndex) + "px, 0px, 0px)";
+        }
+        if (curIndex === 0) {
+            setTimeout(function() {
+                slideList.style.transition = "0ms";
+                slideList.style.transform = "translate3d(-" + (slideWidth * slideLen) + "px, 0px, 0px)";
+            }, slideSpeed);
+            curIndex = slideLen;
+        }
+        curSlide.classList.remove('slide_active');
+        curSlide = slideContents[--curIndex];
+        curSlide.classList.add('slide_active');
+    });
+</script>
+{% endblock %}

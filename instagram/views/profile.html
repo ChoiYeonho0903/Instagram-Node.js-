@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block link %}
+<link rel="stylesheet" href="profile.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+<header class="header_container">
+  <div class="box_img">
+    <button type="button"><img class="img" src="img/empty.png" alt="sample"></button>
+  </div>
+  <div class="box_container">
+    <div class="box_name">
+      <h1>{{user.name+ ' 님의 프로필'}}</h1> 
+      <h2>{{'ID : ' + user.id}}</h2>
+    </div>
+    <div class="">
+      <ul class="box_follow">
+        <li>000 게시물</li>
+        <li>{{followerCount}} 팔로워</li>
+        <li>{{followingCount}} 팔로잉</li>
+      </ul>
+    </div>
+    <div class="login_date">
+      
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block script %}
+<script>
+  let now = new Date();
+  let date_html = "";
+  date_html += `<div  class="date">현재 시간 : ${now}<div>`;
+  $(".login_date").append(date_html);
+</script>
+{% endblock %}

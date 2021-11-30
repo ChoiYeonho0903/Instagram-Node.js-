@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+.cardView {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userNickName{
+  box-sizing: border-box;
+  height: 40px;
+  width: 600px;
+  padding: 16px;
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.cardImage>img{
+  width: 600px;
+  height: 600px;
+  object-fit:cover;
+}
+.cardInfo {
+  width: 600px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+.infoLeft{
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+}
+.infoRight{
+  display:flex;
+  flex-direction: row-reverse;
+  width: 50%;
+}
+.comment{
+  width: 600px;
+  margin-bottom: 10px;
+}
+.comment_form {
+  width: 600px;
+}
+.comment_form input {
+  box-sizing:border-box;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #000;
+}

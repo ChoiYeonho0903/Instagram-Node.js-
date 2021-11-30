@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>회원가입 · Instagram </title>
+    <link rel="stylesheet" href="background.css" type="text/css">
+    <link rel="stylesheet" href="account.css" type="text/css">
+    <link rel="icon" href="img/icon.png">
+  </head>
+  <body>
+    <div class="signUp_container">
+      <img class="instagramText" src="img/logo_text.png" alt="instagramText">
+      <h2 class="joinLetter">친구들의 사진과 동영상을 보려면 가입하세요.</h2>
+      <hr class="line">
+      <form action="/auth/account" method="post">
+        <input type="email" class="userSignUp" placeholder="휴대폰 번호 또는 이메일 주소" name="email">
+        <input type="text" class="userSignUp" placeholder="성명" name="name">
+        <input type="text" class="userSignUp" placeholder="사용자 이름" name="id">
+        <input type="password" class="userSignUp" placeholder="비밀번호" name="password">
+        <button id="signUpButton" type="submit">가입</button>
+      </form>
+    </div>
+    <div class="join_container">
+      <footer class="joinInsta">
+        <p class="join">계정이 있으신가요? <a href="/" class="joinBtn">로그인</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+main {
+    margin: 0;
+    background-color: rgba(245, 245, 245);
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+.follow_box {
+    width: 600px;
+    margin: 0 auto;
+    background-color: rgb(255, 255, 255);
+}
+
+.follow_container {
+    display: flex;
+    height: 65px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+.img_box {
+    margin-right: 10px;
+}
+.image {
+    width: 50px;
+    height: 50px;
+}
+.info_box {
+    margin-right: 330px;
+    width: 100px;
+}
+.user_id {
+    font-size: 20px;
+    font-weight: bold;
+}
+.user_name {
+    font-size: 15px;
+}
+.follow_btn {
+    margin-top: 10px;
+    background-color: rgb(0, 149, 246);
+    color: rgb(255, 255, 255);
+    width: 62px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.unfollow_btn {
+    margin-top: 10px;
+    background-color: rgb(256,256,256);
+    color: rgb(0, 0, 0);
+    width: 62px;
+    height: 30px;
+    border: solid 1px #000;
+    border-radius: 5px;
+    font-weight: bold;
+}
