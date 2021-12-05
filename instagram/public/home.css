@@ -10,12 +10,12 @@
     width: 400px;
     margin-bottom: 15px;
 }
-.slide_wrap { 
+.image_wrap { 
     position: relative; 
     width: 300px; 
     margin: 0 auto;
 }
-.slide_box { 
+.image_box { 
     width: 100%; 
     overflow-x: hidden; 
 }
@@ -34,4 +34,23 @@
 .text_wrap {
     margin: 0 auto;
     width: 300px;
+}
+
+.twit_content {
+    border: solid 1px #000;
+    padding: 2px 3px;
+    margin: 10px 0;
+}
+ 
+.hashtag_form {
+    display: inline;
+}
+.hashtag_btn, .username_btn {
+    border: none;
+    background-color: rgb(256, 256, 256);
+    font-size: 15px;
+    font-weight: 500;
+}
+.hashtag_btn:hover, .username_btn:hover {
+    font-weight: bolder;
 }

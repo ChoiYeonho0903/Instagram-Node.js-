@@ -1,29 +1,113 @@
 const express = require('express');
 const { isLoggedIn } = require('./middlewares');
-const { User } = require('../models');
+const { User, Hashtag, Image, Post } = require('../models');
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 const router = express.Router();
 
-router.get('/search/writer', isLoggedIn, async (req, res, next) => {
+router.post('/', isLoggedIn, async (req, res, next) => {
     try {
-        const posts = await Post.findAll({
-            limit: 6,
-            where: {},
-            include: [
-            {
-                model: User,
-                attributes: ['id', 'name'],
-            }, {
-                model: Image,
-                attributes: ['img_url'],
-            },
-            {
-                model: Hashtag,
-                attributes: ['title'],
-            }],
-            order: [['createdAt', 'DESC']],
-        });
-        res.render('home', {
+        const search_type = req.body.search_type;
+        const search_word = req.body.search_word;
+        if (!search_word) {
+            return res.redirect('/home');
+        }
+
+        if(search_type == "writer") {
+            const writer = await User.findOne({ where: { name: {[Op.like]: `%${search_word}%`} }});
+            let posts = [];
+            if (writer) {
+                posts = await writer.getPosts({
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id', 'name'],
+                        }, {
+                            model: Image,
+                            attributes: ['img_url'],
+                        },
+                    ],
+                    order: [['createdAt', 'DESC']],
+                });
+            }
+            return res.render('home', {
+                twits: posts,
+            });
+        }
+        else if (search_type == "text") {
+            const text = search_word;
+            let posts = [];
+            if (text) {
+                posts = await Post.findAll({
+                    where: {
+                        content: {
+                            [Op.like]: `%${text}%`}},
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id', 'name'],
+                        }, {
+                            model: Image,
+                            attributes: ['img_url'],
+                        },
+                    ],
+                    order: [['createdAt', 'DESC']],
+                });
+            }
+            return res.render('home', {
+                twits: posts,
+            });
+        }
+        else if (search_type == "hashtag") {
+            const hashtag = await Hashtag.findOne({ where: { title: { [Op.like]: `%${search_word}%`} }});
+            let posts = [];
+            if (hashtag) {
+                posts = await hashtag.getPosts({
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id', 'name'],
+                        }, {
+                            model: Image,
+                            attributes: ['img_url'],
+                        },
+                    ],
+                    order: [['createdAt', 'DESC']],
+                });
+            }
+            return res.render('home', {
+                twits: posts,
+            });
+        }
+        else {
+            return res.redirect('/home');
+        }
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+router.get('/username', isLoggedIn, async (req, res, next) => {
+    try {
+        const writer = await User.findOne({ where: { name: req.query.writer }});
+        let posts = [];
+        if (writer) {
+            posts = await writer.getPosts({
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'name'],
+                    }, {
+                        model: Image,
+                        attributes: ['img_url'],
+                    },
+                ],
+                order: [['createdAt', 'DESC']],
+            });
+        }
+        return res.render('home', {
             twits: posts,
         });
     } catch (err) {
@@ -32,54 +116,25 @@ router.get('/search/writer', isLoggedIn, async (req, res, next) => {
     }
 });
 
-router.get('/search/text', isLoggedIn, async (req, res, next) => {
+router.get('/hashtag', isLoggedIn, async (req, res, next) => {
     try {
-        const posts = await Post.findAll({
-            limit: 6,
-            where: {},
-            include: [
-            {
-                model: User,
-                attributes: ['id', 'name'],
-            }, {
-                model: Image,
-                attributes: ['img_url'],
-            },
-            {
-                model: Hashtag,
-                attributes: ['title'],
-            }],
-            order: [['createdAt', 'DESC']],
-        });
-        res.render('home', {
-            twits: posts,
-        });
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-});
-
-router.get('/search/hashtag', isLoggedIn, async (req, res, next) => {
-    try {
-        const posts = await Post.findAll({
-            limit: 6,
-            where: {},
-            include: [
-            {
-                model: User,
-                attributes: ['id', 'name'],
-            }, {
-                model: Image,
-                attributes: ['img_url'],
-            },
-            {
-                model: Hashtag,
-                attributes: ['title'],
-            }],
-            order: [['createdAt', 'DESC']],
-        });
-        res.render('home', {
+        const hashtag = await Hashtag.findOne({ where: { title: req.query.hashtag },});
+        let posts = [];
+        if (hashtag) {
+            posts = await hashtag.getPosts({
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'name'],
+                    }, {
+                        model: Image,
+                        attributes: ['img_url'],
+                    },
+                ],
+                order: [['createdAt', 'DESC']],
+            });
+        }
+        return res.render('home', {
             twits: posts,
         });
     } catch (err) {
