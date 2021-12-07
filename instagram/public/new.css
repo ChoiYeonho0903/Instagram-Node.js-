@@ -14,12 +14,16 @@
     background-color: rgba(0, 149, 246, 0.3);
 }
 
+#img_url_list {
+    display: inline;
+}
+
 .img_label {
     display: inline-block;
     padding: 10px 10px;
     color: #fff;
     vertical-align: middle;
-    background-color: #999999;
+    background-color:rgba(0, 149, 246, 0.3);
     cursor: pointer;
     height: 40px;
     margin-left: 10px;
@@ -61,13 +65,13 @@
     font-size: 15px;
 }
 
-.upload_btn {
+.upload_btn, .delete_btn {
     display: inline-block;
     padding: 10px 10px;
     color: #fff;
     font-size: 17px;
     vertical-align: middle;
-    background-color: #999999;
+    background-color:  rgba(0, 149, 246, 0.3);
     height: 40px;
     width: 100px;
     box-sizing: border-box;

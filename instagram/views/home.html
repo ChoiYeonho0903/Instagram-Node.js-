@@ -7,34 +7,38 @@
 
 {% block content %}
     <div class="twit_container">
-        {% for twit in twits %}
+        {% for i in range(0, twits.length) %}
         <div class="twit">
-            <div class="image_wrap">
-                <div class="image_box"></div>
-                {% for image in twit.Images%}
-                    <div class="slide_content">
+            <div class="slideshow-container">
+                {% for image in twits[i].Images %}
+                    <div class="mySlides{{i}} fade">
                         <img class="slide_img" src="{{image.img_url}}" alt="image">
                     </div>
                 {% endfor %}
-                
-
+            </div>
+            <div style="text-align: center;">
+                {% for j in range(0, twits[i].Images.length) %}
+                    <span class="dot{{i}}" onclick="currentSlide({{j}}, {{i}})"></span>
+                    
+                {% endfor %}
             </div>
             <div class="text_wrap">
                 <div class="twit_author">
                     <form action="/search/username" class="username_form" method="GET">
                         <span>작성자 : </span>
-                        <input type="hidden" value="{{twit.User.name}}" name="writer" class="twit_user_name">
-                        <button type="submit" class="username_btn">{{twit.User.name}}</button>
+                        <input type="hidden" value="{{twits[i].User.name}}" name="writer" class="twit_user_name">
+                        <button type="submit" class="username_btn">{{twits[i].User.name}}</button>
                     </form>
                 </div>
                 <div class="twit_date">
-                    {{twit.createdAt}}
+                    {{twits[i].createdAt}}
                 </div>
                 <div class="twit_content"> 
-                    {{twit.content}}
+                    {{twits[i].content}}
                 </div>
                 <form action="/edit" method="GET">
-                    <input type="hidden" value="{{twit.id}}" name="postId" class="twit_id">
+                    <input type="hidden" value="{{twits[i].id}}" name="postId" class="twit_id">
+                    <input type="hidden" value="{{user.id}}" name="writerId" class="writer_id">
                     <button class ="edit_btn" type="submit">편집</button>
                 </form>
             </div>
@@ -46,7 +50,11 @@
 {% block script %}
 <script>
     window.onload = async function () {
+        if (new URL(location.href).searchParams.get('error')) {
+            alert('본인이 쓴 글만 수정 가능합니다.');
+        }
         const contents = document.getElementsByClassName('twit_content');
+        await console.log("여기");
         for(let i=0; i<contents.length; i++) {
             let content = contents[i];
             const hashtags = content.innerHTML.match(/#[^\s#]*/g); //정규표현식 사용해서 hashtag 얻기
@@ -66,10 +74,27 @@
     }
 </script>
 <script>
-    window.onload = async function () {
-        
+    var slideIndex = 0;
+    for(let i=0; i<9; i++) {
+        showSlides(slideIndex, i);
     }
     
-</script>
+    function currentSlide(n, t) {
+        showSlides(slideIndex = n, twitIndex = t);
+    }
 
+    function showSlides(n, t) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides" + t);
+        var dots = document.getElementsByClassName("dot" + t);
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex].style.display = "block";  
+        dots[slideIndex].className += " active";
+    }
+</script>
 {% endblock %}

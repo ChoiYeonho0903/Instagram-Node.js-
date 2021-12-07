@@ -19,8 +19,10 @@ module.exports = class Image extends Sequelize.Model {
         });
     }
     static associate(db) {
-        db.Image.belongsToMany(db.Post, {
-            through: 'PostImage'
+        db.Image.belongsTo(db.Post, {
+            foreignKey: 'postId',
+            targetKey: 'id',
+            onDelete: 'cascade',
         });
     }
 };

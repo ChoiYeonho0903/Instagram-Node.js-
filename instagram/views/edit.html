@@ -8,14 +8,20 @@
 <div class="new_container">
     <div class="new_box">
         <div class="new_title">새 게시물 만들기</div>
-        <form action="/post" class="file_box" method="post" enctype="multipart/form-data">
-            <div id="img_url_list"></div>
-            <input id="file_name" class="upload_name" name="file_name">
+        <form action="/edit/update" class="file_box" method="POST" enctype="multipart/form-data">
+            <input class="twit_id" type="hidden" value="{{twit.id}}" name="twitId">
+            <div id="img_url_list">
+                {% for image in twit.Images %}
+                    <input type="text" class="upload_name" name="file_name" value="{{image.img_url}}">
+                {% endfor %}
+            </div>
             <label class="img_label" for="img">사진찾기</label>
             <input id="img" type="file" accept="image/*" multiple>
-            <textarea class="twit_content" type="text" name="content" maxlength="140"></textarea>
-            <button class=upload_btn type="submit">업로드</button>
+            <textarea class="twit_content" type="text" name="content" maxlength="140">{{twit.content}}</textarea>
+            <button class=upload_btn type="submit">리로드</button>
+            <button class="delete_btn" type="button">삭제</button>
         </form>
+        
     </div>
 </div>
 
@@ -23,35 +29,62 @@
 
 {% block script %}
 <script>
-    if (document.getElementById("img")) {
-        const mode = document.getElementById("img");      
-        mode.addEventListener("change", function(e) {
-            document.getElementById("file_name").value = "사진 loading 성공";
-
-            const length = this.files.length;
-            const formData = new FormData();
-            const max = 5;
-            if(length>max) {
-                alert("사진은 최대 5장까지만 가능합니다.");
-                return;
-            }
-            for(let i=0; i<length; i++) {
-                formData.append("img", this.files[i]);
-            }
-            axios.post("/post/img", formData)
+    const button = document.querySelector(".delete_btn");
+    button.addEventListener('click', function() {
+        const postId = document.querySelector(".twit_id").value;
+        if (postId) {
+            axios.post(`/edit/${postId}/delete`)
                 .then((res) => {
-                    let url = JSON.parse(res.data);
-                    let img_html = "";
-                    for(let i=0; i<url.length; i++) {
-                        console.log(url[i]);
-                        img_html += `<input id="img-url" type="hidden" name="url" value="${url[i]}">`;
-                    }
-                    $("#img_url_list").append(img_html);
+                    window.location.href = "/home";
                 })
                 .catch((err) => {
                     console.error(err);
                 });
-        });
-    }
+        }
+    });
 </script>
+<script>
+    if (document.getElementById("img")) {
+       const mode = document.getElementById("img");      
+       mode.addEventListener("change", function(e) {
+           const length = this.files.length;
+           const max = 5;
+           if(length>max) {
+               alert("사진은 최대 5장까지만 가능합니다.");
+               return;
+           }
+           let tmp = "";
+           for(let i=0; i<length; i++) {
+               console.log(this.files[i]);
+               tmp += `<input type="text" value="${this.files[i].name}" class="upload_name" name="file_name">`;
+           }
+           document.getElementById("img_url_list").innerHTML = tmp;
+       });
+   }
+</script>
+<script>
+   if (document.getElementById("img")) {
+       const mode = document.getElementById("img");      
+       mode.addEventListener("change", function(e) {
+           const length = this.files.length;
+           const formData = new FormData();
+           for(let i=0; i<length; i++) {
+               formData.append("img", this.files[i]);
+           }
+           axios.post("/edit/img", formData)
+               .then((res) => {
+                   let url = JSON.parse(res.data);
+                   let img_html = "";
+                   for(let i=0; i<url.length; i++) {
+                       img_html += `<input id="img-url" type="hidden" name="url" value="${url[i]}">`;
+                   }
+                   $("#img_url_list").append(img_html);
+               })
+               .catch((err) => {
+                   console.error(err);
+               });
+       });
+   }
+</script>
+
 {% endblock %}

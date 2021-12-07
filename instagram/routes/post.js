@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const { Post, Image, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
+const { url } = require('inspector');
 
 const router = express.Router();
 
@@ -29,7 +30,6 @@ const upload = multer({
 });
 
 router.post('/img', isLoggedIn, upload.array('img', 5), (req, res) => {
-  console.log(req.files);
   let urlArr = new Array(); 
   for (let i = 0; i < req.files.length; i++) { 
     urlArr.push(`/img/${req.files[i].filename}`); 
@@ -41,7 +41,6 @@ router.post('/img', isLoggedIn, upload.array('img', 5), (req, res) => {
 const upload2 = multer();
 router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
   try {
-    console.log(req.body);
     const post = await Post.create({
       content: req.body.content,
       UserId: req.user.id,
@@ -49,15 +48,25 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
     
     const images = req.body.url;
     if(images) {
-      const result = await Promise.all(
-        images.map((url) => {
-          return Image.create({
-            img_url: url,
-          });
-        }),
-      );
-      console.log(result);
-      await post.addImages(result);
+      if(!(images instanceof Array)) {
+        console.log(images);
+        const image = await Image.create({
+          img_url: images,
+        });
+        await post.addImage(image);
+      }
+      else {
+        console.log(images);
+        const result = await Promise.all(
+          images.map((url) => {
+            return Image.create({
+              img_url: url,
+            });
+          }),
+        );
+        console.log(result);
+        await post.addImages(result);
+      }
     }
     
     const hashtags = req.body.content.match(/#[^\s#]*/g); //정규표현식 사용해서 hashtag 얻기

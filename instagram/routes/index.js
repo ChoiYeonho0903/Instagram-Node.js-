@@ -24,7 +24,7 @@ router.get('/profile', isLoggedIn, (req, res, next) => {
 router.get('/home', async (req, res, next) => {
     try {
         const posts = await Post.findAll({
-            limit: 6,
+            limit: 9,
             include: [
             {
                 model: User,

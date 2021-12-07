@@ -26,4 +26,14 @@
       </footer>
     </div>
   </body>
+  <script>
+    window.onload = () => {
+      if (new URL(location.href).searchParams.get('error1')) {
+        alert('이미 존재하는 사용자 이름 입니다.');
+      }
+      if (new URL(location.href).searchParams.get('error2')) {
+        alert('이미 존재하는 이메일 입니다.');
+      }
+    }
+  </script>
 </html>

@@ -10,32 +10,54 @@
     width: 400px;
     margin-bottom: 15px;
 }
-.image_wrap { 
-    position: relative; 
-    width: 300px; 
-    margin: 0 auto;
-}
-.image_box { 
-    width: 100%; 
-    overflow-x: hidden; 
-}
-.slide_list {
-    display: flex;
-}
-.slide_content { 
-    display: table; 
+
+.slideshow-container { 
     width: 300px; 
     height: 300px; 
+    margin: 0 auto;
 }
 .slide_img {
     width: 300px; 
     height: 300px; 
 }
+
+
+[class *="dot"] {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+.active, [class *="dot"]:hover {
+    background-color: #717171;
+}
+
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+  
+@-webkit-keyframes fade {
+from {opacity: .4} 
+to {opacity: 1}
+}
+
+@keyframes fade {
+from {opacity: .4} 
+to {opacity: 1}
+}
+
+
 .text_wrap {
     margin: 0 auto;
     width: 300px;
 }
-
 .twit_content {
     border: solid 1px #000;
     padding: 2px 3px;
@@ -53,4 +75,19 @@
 }
 .hashtag_btn:hover, .username_btn:hover {
     font-weight: bolder;
+}
+
+.edit_btn {
+    border: none;
+    padding: 10px 10px;
+    color: #fff;
+    vertical-align: middle;
+    background-color:rgba(0, 149, 246, 0.3);
+    cursor: pointer;
+    height: 40px;
+    width: 80px;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: 1000;
+    font-size: 15px;
 }

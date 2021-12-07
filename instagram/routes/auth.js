@@ -9,9 +9,13 @@ const router = express.Router();
 router.post('/account', isNotLoggedIn, async (req, res, next) => {
     const {email, name, id, password} = req.body;
     try {
-        const exUser = await User.findOne({ where: {id} });
-        if (exUser) {
-            return res.redirect('/account?error=exist');
+        const User1 = await User.findOne({ where: {id} });
+        const User2 = await User.findOne({ where: {email} });
+        if (User1) {
+            return res.redirect('/account?error1=exist');
+        }
+        if (User2) {
+            return res.redirect('/account?error2=exist');
         }
         const hash = await bcrypt.hash(password, 12);
         await User.create({

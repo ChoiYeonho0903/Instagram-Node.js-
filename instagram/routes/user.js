@@ -7,7 +7,6 @@ const router = express.Router();
 router.post('/:id/follow', isLoggedIn, async (req, res, next) => {
     try {
         const user = await User.findOne({ where: { id: req.user.id } });
-        console.log("여기");
         if (user) {
             await user.addFollowing(req.params.id);
             res.send('success');

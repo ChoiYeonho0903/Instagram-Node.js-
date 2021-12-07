@@ -9,8 +9,9 @@
     <div class="new_box">
         <div class="new_title">새 게시물 만들기</div>
         <form action="/post" class="file_box" method="post" enctype="multipart/form-data">
-            <div id="img_url_list"></div>
-            <input id="file_name" class="upload_name" name="file_name">
+            <div id="img_url_list">
+                <input id="file_name" class="upload_name" name="file_name">
+            </div>
             <label class="img_label" for="img">사진찾기</label>
             <input id="img" type="file" accept="image/*" multiple>
             <textarea class="twit_content" type="text" name="content" maxlength="140"></textarea>
@@ -23,18 +24,31 @@
 
 {% block script %}
 <script>
-    if (document.getElementById("img")) {
+     if (document.getElementById("img")) {
         const mode = document.getElementById("img");      
         mode.addEventListener("change", function(e) {
-            document.getElementById("file_name").value = "사진 loading 성공";
-
             const length = this.files.length;
-            const formData = new FormData();
             const max = 5;
             if(length>max) {
                 alert("사진은 최대 5장까지만 가능합니다.");
                 return;
             }
+            let tmp = "";
+            for(let i=0; i<length; i++) {
+                console.log(this.files[i]);
+                tmp += `<input type="text" value="${this.files[i].name}" class="upload_name" name="file_name">`;
+            }
+            document.getElementById("img_url_list").innerHTML = tmp;
+        });
+    }
+</script>
+<script>
+    if (document.getElementById("img")) {
+        const mode = document.getElementById("img");      
+        mode.addEventListener("change", function(e) {
+            const length = this.files.length;
+            const formData = new FormData();
+            
             for(let i=0; i<length; i++) {
                 formData.append("img", this.files[i]);
             }
@@ -43,7 +57,6 @@
                     let url = JSON.parse(res.data);
                     let img_html = "";
                     for(let i=0; i<url.length; i++) {
-                        console.log(url[i]);
                         img_html += `<input id="img-url" type="hidden" name="url" value="${url[i]}">`;
                     }
                     $("#img_url_list").append(img_html);
