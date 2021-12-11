@@ -93,7 +93,7 @@ router.post('/update', isLoggedIn, upload2.none(), async (req, res, next) => {
   }
 });
 
-router.post('/:id/delete', async (req, res, next) => {
+router.post('/:id/delete', isLoggedIn, async (req, res, next) => {
     const postId = req.params.id;
     try {
         const post = await Post.findOne({ 
@@ -126,7 +126,7 @@ router.post('/:id/delete', async (req, res, next) => {
     }
 });
 
-router.get('/', async (req, res, next) => {
+router.get('/', isLoggedIn ,async (req, res, next) => {
     const postId = req.query.postId;
     const writerId = req.query.writerId;
     try {

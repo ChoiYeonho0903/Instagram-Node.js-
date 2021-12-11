@@ -31,6 +31,17 @@ router.post('/', isLoggedIn, async (req, res, next) => {
                     order: [['createdAt', 'DESC']],
                 });
             }
+            if(posts.length==0) {
+                res.locals.pageNum = 1;
+            }
+            else {
+                if(posts.length%9==0) {
+                    res.locals.pageNum = posts.length/9;
+                }
+                else {
+                    res.locals.pageNum = parseInt(posts.length/9) + 1;
+                }
+            }
             return res.render('home', {
                 twits: posts,
             });
@@ -55,6 +66,17 @@ router.post('/', isLoggedIn, async (req, res, next) => {
                     order: [['createdAt', 'DESC']],
                 });
             }
+            if(posts.length==0) {
+                res.locals.pageNum = 1;
+            }
+            else {
+                if(posts.length%9==0) {
+                    res.locals.pageNum = posts.length/9;
+                }
+                else {
+                    res.locals.pageNum = parseInt(posts.length/9) + 1;
+                }
+            }
             return res.render('home', {
                 twits: posts,
             });
@@ -75,6 +97,17 @@ router.post('/', isLoggedIn, async (req, res, next) => {
                     ],
                     order: [['createdAt', 'DESC']],
                 });
+            }
+            if(posts.length==0) {
+                res.locals.pageNum = 1;
+            }
+            else {
+                if(posts.length%9==0) {
+                    res.locals.pageNum = posts.length/9;
+                }
+                else {
+                    res.locals.pageNum = parseInt(posts.length/9) + 1;
+                }
             }
             return res.render('home', {
                 twits: posts,
@@ -107,6 +140,17 @@ router.get('/username', isLoggedIn, async (req, res, next) => {
                 order: [['createdAt', 'DESC']],
             });
         }
+        if(posts.length==0) {
+            res.locals.pageNum = 1;
+        }
+        else {
+            if(posts.length%9==0) {
+                res.locals.pageNum = posts.length/9;
+            }
+            else {
+                res.locals.pageNum = parseInt(posts.length/9) + 1;
+            }
+        }
         return res.render('home', {
             twits: posts,
         });
@@ -134,6 +178,17 @@ router.get('/hashtag', isLoggedIn, async (req, res, next) => {
                 order: [['createdAt', 'DESC']],
             });
         }
+        if(posts.length==0) {
+            res.locals.pageNum = 1;
+        }
+        else {
+            if(posts.length%9==0) {
+                res.locals.pageNum = posts.length/9;
+            }
+            else {
+                res.locals.pageNum = parseInt(posts.length/9) + 1;
+            }
+        }
         return res.render('home', {
             twits: posts,
         });
@@ -142,5 +197,6 @@ router.get('/hashtag', isLoggedIn, async (req, res, next) => {
         next(err);
     }
 });
+
 
 module.exports = router;

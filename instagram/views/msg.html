@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="msg.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="follow_box">
+            {% for user in allUsers %}
+                {% if followerIdList.includes(user.id) and followingIdList.includes(user.id) %}
+                    <div class="user_box">
+                        <div class="img_box">
+                            <img class="image" src="img/empty.png" alt="빈프로필">
+                        </div>
+                        <div class="info_box">
+                            <div class="user_id">
+                                <input class ="user_id" type="hidden" value="{{user.id}}">
+                                {{user.id}}
+                            </div>
+                            <div class="user_name">
+                                {{user.name}}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="msg_box">
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const userBox = document.querySelectorAll(".user_box");
+    userBox.addEventListener("click", () => {
+        const userId = document.querySelector(".user_id").value;
+        if (userId) {
+            axios.post(`/msg/${userId}`)
+                .then(())
+        }
+    });
+</script>
+{% endblock %}

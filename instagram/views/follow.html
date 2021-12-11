@@ -8,22 +8,22 @@
 <main>
     <input id="my_id" type="hidden" value="{{user.id}}">
     <div class="follow_box">
-        {% for one_user in all_users %}
-            {% if one_user.id !== user.id %}
+        {% for oneUser in allUsers %}
+            {% if oneUser.id !== user.id %}
                 <div class="follow_container">
                     <div class="img_box">
                         <img class="image" src="img/empty.png" alt="빈프로필">
                     </div>
                     <div class="info_box">
                         <div class="user_id">
-                            <input class ="i_user_id" type="hidden" value="{{one_user.id}}">
-                            {{one_user.id}}
+                            <input class ="i_user_id" type="hidden" value="{{oneUser.id}}">
+                            {{oneUser.id}}
                         </div>
                         <div class="user_name">
-                            {{one_user.name}}
+                            {{oneUser.name}}
                         </div>
                     </div>
-                    {% if not followerIdList.includes(one_user.id) %}
+                    {% if not followerIdList.includes(oneUser.id) %}
                     
                     <button type="button" class="follow_btn">팔로우</button>
                     

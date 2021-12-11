@@ -7,6 +7,7 @@
 
 {% block content %}
     <div class="twit_container">
+        <input class="twits_length" type="hidden" value={{twits.length}}>
         {% for i in range(0, twits.length) %}
         <div class="twit">
             <div class="slideshow-container">
@@ -45,6 +46,17 @@
         </div>
     {% endfor %}         
     </div>
+    <footer>
+        <div class="pagination">
+            <div class="pagination_container">
+                {% for i in range(0, pageNum) %}
+                    <form action="/home/{{i+1}}" method="GET">
+                        <button type="submit">{{i+1}}</button>
+                    </form>
+                {% endfor %}
+            </div>
+        </div>
+    </footer>
 {% endblock %}
 
 {% block script %}
@@ -54,7 +66,6 @@
             alert('본인이 쓴 글만 수정 가능합니다.');
         }
         const contents = document.getElementsByClassName('twit_content');
-        await console.log("여기");
         for(let i=0; i<contents.length; i++) {
             let content = contents[i];
             const hashtags = content.innerHTML.match(/#[^\s#]*/g); //정규표현식 사용해서 hashtag 얻기
@@ -72,29 +83,33 @@
             }
         }
     }
+    
+    
 </script>
 <script>
-    var slideIndex = 0;
-    for(let i=0; i<9; i++) {
-        showSlides(slideIndex, i);
+    let twits_length = document.querySelector(".twits_length").value;
+    for(let i=0; i<twits_length; i++) {
+        showSlides(0, i);
     }
     
     function currentSlide(n, t) {
-        showSlides(slideIndex = n, twitIndex = t);
+        showSlides(n, t);
     }
 
     function showSlides(n, t) {
-        var i;
-        var slides = document.getElementsByClassName("mySlides" + t);
-        var dots = document.getElementsByClassName("dot" + t);
-        for (i = 0; i < slides.length; i++) {
+        let slides = document.getElementsByClassName("mySlides" + t);
+        let dots = document.getElementsByClassName("dot" + t);
+        for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";  
         }
-        for (i = 0; i < dots.length; i++) {
+        for (let i = 0; i < dots.length; i++) {
             dots[i].className = dots[i].className.replace(" active", "");
         }
-        slides[slideIndex].style.display = "block";  
-        dots[slideIndex].className += " active";
+        if(slides.length == 0) {
+            return;
+        }
+        slides[n].style.display = "block";  
+        dots[n].className += " active";
     }
 </script>
 {% endblock %}
